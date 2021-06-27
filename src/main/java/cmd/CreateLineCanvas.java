@@ -20,16 +20,17 @@ public class CreateLineCanvas extends Cmd {
 	 */
 	@Override
 	public CanvasApp excuteCmd(String[] inputs) {
-		if(checkValidCommand(inputs,5) && checkHorizontalVerticalLine(inputs,5))
+		if(checkValidCommand(inputs,5) && checkHorizontalVerticalLine(inputs))
 			if(this.cmdAppliedCanvas.checkCanvasEmpty()) {
 				throw new CanvasException(ExceptionConstant.CANVAS_NOT_EXIST);
 			}else {
+				if(checkLineCrossBorder(inputs))
 				this.cmdAppliedCanvas.drawLineWithSpecificCharacters(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]), Integer.parseInt(inputs[3]), Integer.parseInt(inputs[4]), Constant.CROSS);
 			}
 		return this.cmdAppliedCanvas;
 	}
 
-	private boolean checkHorizontalVerticalLine(String[] inputs, int i) {
+	private boolean checkHorizontalVerticalLine(String[] inputs) {
 		boolean checkLine=false;
 		if(inputs[1].equals(inputs[3])) {
 			checkLine=true;
@@ -40,5 +41,11 @@ public class CreateLineCanvas extends Cmd {
 			throw new CanvasException(ExceptionConstant.CANVAS_SUPPORT_LINE_EXE);
 		return checkLine;
 	}
-
+	
+	private boolean checkLineCrossBorder(String[] inputs) {
+		if (Integer.parseInt(inputs[2]) <= 0 || Integer.parseInt(inputs[1]) <= 0 || Integer.parseInt(inputs[4])
+				 >= this.cmdAppliedCanvas.getCanvasArray().length-1 || Integer.parseInt(inputs[3]) >= this.cmdAppliedCanvas.getCanvasArray()[0].length-1)
+			throw new CanvasException(ExceptionConstant.CANVAS_DRAW_LINE_EXE_BORDER);
+		return true;
+	}
 }

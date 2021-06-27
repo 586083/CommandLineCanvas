@@ -14,7 +14,8 @@ public enum ExceptionConstant {
 	CANVAS_DRAW_LINE_EXE("EXE006","Cannot draw in canvas since given input cannot fit in canvas"),
 	CANVAS_SUPPORT_LINE_EXE("EXE007","Canvas support only Horizontil and vertical lines"),
 	BUCKET_FILL_INVALID_INPUTS("EXE008","Cannot do bucketfill due to invalid inputs"),
-	BUCKET_FILL_EMPTY_CHECK("EXE009","Cannot do bucketfill since given input space falls under a line or boder");
+	BUCKET_FILL_EMPTY_CHECK("EXE009","Cannot do bucketfill since given input space falls under a line or border"),
+	CANVAS_DRAW_LINE_EXE_BORDER("EXE010","Cannot draw since given input cross at border");
 	
 	private String code;
 	private String message;

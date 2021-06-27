@@ -29,7 +29,7 @@ public class CanvasTest {
 	public void testCreateFailure() {
 		CommandLineCanvas clc=new CommandLineCanvas();
 		clc.execteCommand("C 20 4");
-		assertEquals(true,clc.execteCommand("L 3 4 3 10").contains("EXE006"));
+		assertEquals(true,clc.execteCommand("L 3 4 3 10").contains("EXE010"));
 	}
 	
 	@Test
@@ -83,6 +83,14 @@ public class CanvasTest {
 		CommandLineCanvas clc=new CommandLineCanvas();
 		assertEquals(true,clc.execteCommand("L 2 5 2 3").contains("EXE003"));
 	}
+	
+	@Test
+	public void testCreateLineFailure4() {
+		CommandLineCanvas clc=new CommandLineCanvas();
+		clc.execteCommand("C 20 4");
+		assertEquals(true,clc.execteCommand("L 2 3 2 5").contains("EXE010"));
+	}
+	
 	
 	@Test
 	public void testCreateLineVertical() {
