@@ -16,10 +16,6 @@ public class CanvasException extends RuntimeException {
 	private String code;
 	private String message;
 	
-	public CanvasException(String message) {
-        super(message);
-    }
-	
 	public CanvasException(ExceptionConstant exe) {
        this.code=exe.getCode();
        this.message=exe.getMessage();

@@ -8,12 +8,11 @@ import app.CommandLineCanvas;
 
 public class CanvasTest {
 	
-	/**
 	@Test
 	public void invalidCommand() {
 		CommandLineCanvas clc=new CommandLineCanvas();
 		assertEquals(true,clc.execteCommand("F E").contains("Entered Invalid command"));
-	}*/
+	}
 	
 	@Test
 	public void testCreate() {
@@ -29,7 +28,27 @@ public class CanvasTest {
 	@Test
 	public void testCreateFailure() {
 		CommandLineCanvas clc=new CommandLineCanvas();
-		assertEquals(true,clc.execteCommand("C 20 *").contains("EXE"));
+		clc.execteCommand("C 20 4");
+		assertEquals(true,clc.execteCommand("L 3 4 3 10").contains("EXE006"));
+	}
+	
+	@Test
+	public void testCreateFailureDuplicateCanavs() {
+		CommandLineCanvas clc=new CommandLineCanvas();
+		clc.execteCommand("C 20 4");
+		assertEquals(true,clc.execteCommand("C 20 4").contains("EXE002"));
+	}
+	
+	@Test
+	public void testCreateFailureInvalidHeightOrWidth() {
+		CommandLineCanvas clc=new CommandLineCanvas();
+		assertEquals(true,clc.execteCommand("C 0 4").contains("EXE005"));
+	}
+	
+	@Test
+	public void testCreateFailureInvalidLine() {
+		CommandLineCanvas clc=new CommandLineCanvas();
+		assertEquals(true,clc.execteCommand("C 20 *").contains("EXE001"));
 	}
 	
 	@Test
@@ -46,10 +65,23 @@ public class CanvasTest {
 	}
 	
 	@Test
-	public void testCreateLineFailure() {
+	public void testCreateLineFailure1() {
 		CommandLineCanvas clc=new CommandLineCanvas();
 		clc.execteCommand("C 20 4");
-		assertEquals(true,clc.execteCommand("L * 2 6 2").contains("EXE"));
+		assertEquals(true,clc.execteCommand("L * 2 6 2").contains("EXE001"));
+	}
+	
+	@Test
+	public void testCreateLineFailure2() {
+		CommandLineCanvas clc=new CommandLineCanvas();
+		clc.execteCommand("C 20 4");
+		assertEquals(true,clc.execteCommand("L 2 5 6 3").contains("EXE007"));
+	}
+	
+	@Test
+	public void testCreateLineFailure3() {
+		CommandLineCanvas clc=new CommandLineCanvas();
+		assertEquals(true,clc.execteCommand("L 2 5 2 3").contains("EXE003"));
 	}
 	
 	@Test
@@ -87,7 +119,7 @@ public class CanvasTest {
 		clc.execteCommand("C 20 4");
 		clc.execteCommand("L 1 2 6 2");
 		clc.execteCommand("L 6 3 6 4");
-		assertEquals(true,clc.execteCommand("R * 1 18 3").contains("EXE"));
+		assertEquals(true,clc.execteCommand("R * 1 18 3").contains("EXE001"));
 	}
 	
 	@Test
@@ -146,6 +178,36 @@ public class CanvasTest {
 		clc.execteCommand("L 1 2 6 2");
 		clc.execteCommand("L 6 3 6 4");
 		clc.execteCommand("R 14 1 18 3");
-		assertEquals(true,clc.execteCommand("B 10 3 3").contains("EXE"));
+		assertEquals(true,clc.execteCommand("B 10 3 3").contains("EXE004"));
+	}
+	
+	@Test
+	public void testBucketFillFailureBorderCase() {
+		CommandLineCanvas clc=new CommandLineCanvas();
+		clc.execteCommand("C 20 4");
+		clc.execteCommand("L 1 2 6 2");
+		clc.execteCommand("L 6 3 6 4");
+		clc.execteCommand("R 14 1 18 3");
+		assertEquals(true,clc.execteCommand("B 0 1 c").contains("EXE009"));
+	}
+	
+	@Test
+	public void testBucketFillFailureCheckEmpty() {
+		CommandLineCanvas clc=new CommandLineCanvas();
+		clc.execteCommand("C 20 4");
+		clc.execteCommand("L 1 2 6 2");
+		clc.execteCommand("L 6 3 6 4");
+		clc.execteCommand("R 14 1 18 3");
+		assertEquals(true,clc.execteCommand("B 1 2 c").contains("EXE009"));
+	}
+	
+	@Test
+	public void testBucketFillFailureInvalidInputs() {
+		CommandLineCanvas clc=new CommandLineCanvas();
+		clc.execteCommand("C 20 4");
+		clc.execteCommand("L 1 2 6 2");
+		clc.execteCommand("L 6 3 6 4");
+		clc.execteCommand("R 14 1 18 3");
+		assertEquals(true,clc.execteCommand("B 10 10 c").contains("EXE008"));
 	}
 }

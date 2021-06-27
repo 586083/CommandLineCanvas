@@ -91,45 +91,58 @@ public class BucketFillCanvasBFS extends Cmd{
 		
 	private void bucketFill(char[][] input,int height,int width,char c) {
 		
-		//Direction vectors
-		int[] dh = { 1,0,-1,-1,-1,0,1,1};
-		int[] dW = { -1,-1,-1,0,1,1,1,0};
-		
-		// Stores indices of the matrix cells
-	    Queue<Cordinate > q = new LinkedList<Cordinate>();
-	    
-	    //visited elements
-	    boolean[][] vis=new boolean[input.length][input[0].length];
-	    
-	    // Mark the starting cell as visited
-	    // and push it into the queue
-	    q.add(new Cordinate(height, width));
-	    vis[height][width]=true;
-	    
-	    //current color
-	    char currentColor=input[height][width];
-	    		
-	    // Iterate while the queue
-	    // is not empty
-	    while (!q.isEmpty())
-	    {
-	    	Cordinate cell=q.peek();
-	    	int h1=cell.height;
-	    	int w1=cell.width;
-	    	
-	    	input[h1][w1]=c;
-	    	q.remove();
-	    	
-	    	//Go to adjacent cells
-	    	for(int i=0;i<dh.length;i++) {
-	    		int adjHeight = h1 + dh[i];
-	            int adjWidth = w1 + dW[i];
-	            if(isValidToFill(vis,adjHeight,adjWidth,input,c,currentColor)) {
-	            	q.add(new Cordinate(adjHeight, adjWidth));
-	            	vis[adjHeight][adjWidth]=true;
-	            }
-	    	}
-	    }
+		try {
+			
+			//current color
+		    char currentColor=input[height][width];
+		    
+		    //validate current color is empty
+		    if(currentColor == Constant.CROSS || currentColor == Constant.PIPE_H || currentColor == Constant.PIPE_V)
+		    	throw new CanvasException(ExceptionConstant.BUCKET_FILL_EMPTY_CHECK);
+		    
+			//Direction vectors
+			int[] dh = { 1,0,-1,-1,-1,0,1,1};
+			int[] dW = { -1,-1,-1,0,1,1,1,0};
+			
+			// Stores indices of the matrix cells
+		    Queue<Cordinate > q = new LinkedList<Cordinate>();
+		    
+		    //visited elements
+		    boolean[][] vis=new boolean[input.length][input[0].length];
+		    
+		    // Mark the starting cell as visited
+		    // and push it into the queue
+		    q.add(new Cordinate(height, width));
+		    vis[height][width]=true;
+		    
+		   
+		    		
+		    // Iterate while the queue
+		    // is not empty
+		    while (!q.isEmpty())
+		    {
+		    	Cordinate cell=q.peek();
+		    	int h1=cell.height;
+		    	int w1=cell.width;
+		    	
+		    	input[h1][w1]=c;
+		    	q.remove();
+		    	
+		    	//Go to adjacent cells
+		    	for(int i=0;i<dh.length;i++) {
+		    		int adjHeight = h1 + dh[i];
+		            int adjWidth = w1 + dW[i];
+		            if(isValidToFill(vis,adjHeight,adjWidth,input,c,currentColor)) {
+		            	q.add(new Cordinate(adjHeight, adjWidth));
+		            	vis[adjHeight][adjWidth]=true;
+		            }
+		    	}
+		    }
+		}catch (CanvasException e) {
+			throw e;
+		}catch (Exception e) {
+			throw new CanvasException(ExceptionConstant.BUCKET_FILL_INVALID_INPUTS);
+		}
 	}
 	
 	 

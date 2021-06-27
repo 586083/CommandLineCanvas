@@ -1,6 +1,7 @@
 package app;
 
 import constant.Constant;
+import constant.ExceptionConstant;
 import exception.CanvasException;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,7 @@ public class CanvasApp {
      */
     public CanvasApp(int w, int h) {
         if(w < 1 || h < 1) {
-            throw new CanvasException("Canvas cannot be created since width or hight is less than 1");
+            throw new CanvasException(ExceptionConstant.CANVAS_CREATE_EXE);
         }
         h+=2;
         w+=2;
@@ -43,10 +44,14 @@ public class CanvasApp {
   	 * @return
   	 */
   	public char[][] drawLineWithSpecificCharacters(int x1,int y1,int x2,int y2,char c) {
-  		for(int i=y1;i<=y2;i++) {
-  			for(int j=x1;j<=x2;j++) {
-  				canvasArray[i][j]=c;
-  			}
+  		try {
+	  		for(int i=y1;i<=y2;i++) {
+	  			for(int j=x1;j<=x2;j++) {
+	  				canvasArray[i][j]=c;
+	  			}
+	  		}
+  		}catch (Exception e) {
+  			throw new CanvasException(ExceptionConstant.CANVAS_DRAW_LINE_EXE);
   		}
   		return canvasArray;
   	}
